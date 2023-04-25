@@ -33,7 +33,7 @@ if (isset($_POST['update'])) {
   <div class="form-group">
     <label for="birth_date">Birth date:</label>
     <input type="date" class="form-control" name="birth_date"
-           placeholder="Enter placing on the market" value="<?php echo $driver ? $driver['birth_date'] : ''; ?>" required>
+           placeholder="Enter birth date" value="<?php echo $driver ? $driver['birth_date'] : ''; ?>" required>
   </div>
 
   <input type="submit" name="<?php echo $driver ? 'update' : 'save'; ?>" class="btn btn-primary" style="float:right;"
