@@ -3,6 +3,7 @@
 namespace App\VehicleManagementSystem\Classes;
 
 use App\VehicleManagementSystem\Interfaces\CrudInterface;
+use PDO;
 
 class Vehicle extends Database implements CrudInterface
 {
@@ -18,9 +19,15 @@ class Vehicle extends Database implements CrudInterface
 
         return $pdoStatement->fetchAll();
     }
-    public function findById($id)
+    public function findById($id): false|array
     {
-        // TODO: Implement findById() method.
+        $pdoStatement = $this->connection->prepare(
+            "SELECT * FROM vehicles WHERE id = :id",
+            [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]
+        );
+        $pdoStatement->execute(['id' => $id]);
+
+        return $pdoStatement->fetchAll();
     }
 
     public function create($data)

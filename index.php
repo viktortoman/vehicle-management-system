@@ -1,5 +1,5 @@
 <?php
-require_once 'vendor/autoload.php';
+require 'vendor/autoload.php';
 
 use App\VehicleManagementSystem\Classes\Vehicle;
 
@@ -13,13 +13,7 @@ if(isset($_GET['deleteId']) && !empty($_GET['deleteId'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>Vehicle management system</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
-</head>
+<?php include 'src/pages/header.php'; ?>
 <body>
 <div class="card text-center" style="padding:15px;">
   <h4>Vehicle management system</h4>
@@ -77,7 +71,7 @@ if(isset($_GET['deleteId']) && !empty($_GET['deleteId'])) {
           <a href="src/pages/vehicle/edit.php?editId=<?php echo $vehicle['id'] ?>" style="color:green">
             <i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp
           <a href="index.php?deleteId=<?php echo $vehicle['id'] ?>" style="color:red"
-             onclick="confirm('Are you sure want to delete this record')">
+             onclick="confirm('Are you sure want to delete this record?')">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </a>
         </td>
@@ -86,7 +80,6 @@ if(isset($_GET['deleteId']) && !empty($_GET['deleteId'])) {
     </tbody>
   </table>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<?php include 'src/pages/footer.php'; ?>
 </body>
 </html>
