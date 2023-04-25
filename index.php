@@ -21,19 +21,23 @@ if(isset($_GET['deleteId']) && !empty($_GET['deleteId'])) {
 <br><br>
 <div class="container">
     <?php
-    if (isset($_GET['msg1']) == "insert") {
+    $msg = $_GET['msg'] ?? null;
+
+    if ($msg == "insert-success") {
         echo "<div class='alert alert-success alert-dismissible'>
               <button type='button' class='close' data-dismiss='alert'>&times;</button>
               Vehicle added successfully.
             </div>";
     }
-    if (isset($_GET['msg2']) == "update") {
+
+    if ($msg == "update-success") {
         echo "<div class='alert alert-success alert-dismissible'>
               <button type='button' class='close' data-dismiss='alert'>&times;</button>
               Vehicle updated successfully.
             </div>";
     }
-    if (isset($_GET['msg3']) == "delete") {
+
+    if ($msg == "delete-success") {
         echo "<div class='alert alert-success alert-dismissible'>
               <button type='button' class='close' data-dismiss='alert'>&times;</button>
               Vehicle deleted successfully.
