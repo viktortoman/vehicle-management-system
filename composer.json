@@ -1,0 +1,16 @@
+{
+    "name": "app/vehicle-management-system",
+    "description": "Vehicle management system",
+    "autoload": {
+        "psr-4": {
+            "App\\VehicleManagementSystem\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tomán Viktor",
+            "email": "viktor.toman19@gmail.com"
+        }
+    ],
+    "require": {}
+}

@@ -1,0 +1,1 @@
+create database `vehicle-management-system`;
