@@ -1,22 +1,22 @@
 <?php
-require 'vendor/autoload.php';
+require '../../vendor/autoload.php';
 
-use App\VehicleManagementSystem\Classes\Vehicle;
+use App\VehicleManagementSystem\Classes\Driver;
 
-$vehicleClass = new Vehicle();
+$driverClass = new Driver();
 
-if(isset($_GET['deleteId']) && !empty($_GET['deleteId'])) {
+if (isset($_GET['deleteId']) && !empty($_GET['deleteId'])) {
     $deleteId = $_GET['deleteId'];
-    $vehicleClass->delete($deleteId);
-    header("Location: index.php?msg=delete-success");
+    $driverClass->delete($deleteId);
+    header("Location: drivers.php?msg=delete-success");
 }
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<?php include 'src/pages/header.php'; ?>
+<?php include 'header.php'; ?>
 <body>
-<?php include 'src/pages/menu.php'; ?>
+<?php include 'menu.php'; ?>
 <div class="container">
     <?php
     $msg = $_GET['msg'] ?? null;
@@ -24,62 +24,59 @@ if(isset($_GET['deleteId']) && !empty($_GET['deleteId'])) {
     if ($msg == "insert-success") {
         echo "<div class='alert alert-success alert-dismissible'>
               <button type='button' class='close' data-dismiss='alert'>&times;</button>
-              Vehicle added successfully.
+              Driver added successfully.
             </div>";
     }
 
     if ($msg == "update-success") {
         echo "<div class='alert alert-success alert-dismissible'>
               <button type='button' class='close' data-dismiss='alert'>&times;</button>
-              Vehicle updated successfully.
+              Driver updated successfully.
             </div>";
     }
 
     if ($msg == "delete-success") {
         echo "<div class='alert alert-success alert-dismissible'>
               <button type='button' class='close' data-dismiss='alert'>&times;</button>
-              Vehicle deleted successfully.
+              Driver deleted successfully.
             </div>";
     }
     ?>
   <h2>
-    Vehicles
-    <a href="src/pages/vehicle/create.php" class="btn btn-primary" style="float:right;">Add new vehicle</a>
+    Drivers
+    <a href="driver/create.php" class="btn btn-primary" style="float:right;">Add new driver</a>
   </h2>
   <table class="table table-hover">
     <thead>
     <tr>
       <th>Id</th>
-      <th>Type</th>
-      <th>Plate number</th>
-      <th>Placing on the market</th>
+      <th>Name</th>
+      <th>Birth date</th>
       <th>Created at</th>
       <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <?php
-    $vehicles = $vehicleClass->getAll();
+    $drivers = $driverClass->getAll();
 
-    if (!$vehicles) {
-    ?>
+    if (!$drivers) {
+        ?>
     <tr>
       <td>No result.</td>
     </tr>
     <?php } ?>
-
-    <?php foreach ($vehicles as $vehicle) {
+    <?php foreach ($drivers as $driver) {
         ?>
       <tr>
-        <td><?php echo $vehicle['id'] ?></td>
-        <td><?php echo $vehicle['type'] ?></td>
-        <td><?php echo $vehicle['plate_number'] ?></td>
-        <td><?php echo $vehicle['placing_on_the_market'] ?></td>
-        <td><?php echo $vehicle['created_at'] ?></td>
+        <td><?php echo $driver['id'] ?></td>
+        <td><?php echo $driver['name'] ?></td>
+        <td><?php echo $driver['birth_date'] ?></td>
+        <td><?php echo $driver['created_at'] ?></td>
         <td>
-          <a href="src/pages/vehicle/edit.php?editId=<?php echo $vehicle['id'] ?>" style="color:green">
+          <a href="driver/edit.php?editId=<?php echo $driver['id'] ?>" style="color:green">
             <i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp
-          <a href="index.php?deleteId=<?php echo $vehicle['id'] ?>" style="color:red"
+          <a href="drivers.php?deleteId=<?php echo $driver['id'] ?>" style="color:red"
              onclick="confirm('Are you sure want to delete this record?')">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </a>
@@ -89,6 +86,6 @@ if(isset($_GET['deleteId']) && !empty($_GET['deleteId'])) {
     </tbody>
   </table>
 </div>
-<?php include 'src/pages/footer.php'; ?>
+<?php include 'footer.php'; ?>
 </body>
 </html>

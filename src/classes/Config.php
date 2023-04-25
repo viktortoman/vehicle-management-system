@@ -4,6 +4,7 @@ namespace App\VehicleManagementSystem\Classes;
 
 class Config
 {
+    public const BASE_URL = 'http://localhost/vehicle-management-system/';
     private string $dbUser = 'root';
     private string $dbPass = '';
     private string $dbHost = 'localhost';

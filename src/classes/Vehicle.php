@@ -60,9 +60,19 @@ class Vehicle extends Database implements CrudInterface
         }
     }
 
-    public function delete($id)
+    public function delete($id, $type = 'SOFT')
     {
-        // TODO: Implement delete() method.
+        if ($type === 'HARD') {
+            $sql = "DELETE FROM vehicles WHERE id = :id";
+            $pdoStatement = $this->connection->prepare($sql);
+            $pdoStatement->execute(['id' => $id]);
+        } else {
+            $sql = "UPDATE vehicles SET deleted_at=? WHERE id=?";
+            $this->connection->prepare($sql)->execute([
+                (new \DateTime())->format('Y-m-d H:i:s'),
+                $id
+            ]);
+        }
     }
 
     protected function prepare($type, $sql, $data) {

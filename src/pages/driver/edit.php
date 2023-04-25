@@ -8,7 +8,7 @@ require '../../../vendor/autoload.php';
 <body>
 <?php include '../menu.php'; ?>
 <div class="text-center" style="padding:15px;">
-  <h4>Create vehicle</h4>
+  <h4>Edit driver</h4>
 </div>
 <br>
 <div class="container">
