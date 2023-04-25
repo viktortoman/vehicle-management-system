@@ -12,5 +12,7 @@
             "email": "viktor.toman19@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "ext-mysqli": "*"
+    }
 }
