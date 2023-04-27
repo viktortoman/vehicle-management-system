@@ -9,8 +9,7 @@ $vehicleClass = new Vehicle();
 
 $driverAssign = null;
 $driverId = null;
-
-$vehicles = $vehicleClass->getAll();
+$vehicles = [];
 
 if(isset($_GET['driverId']) && !empty($_GET['driverId'])) {
     $driverId = $_GET['driverId'];
@@ -19,6 +18,8 @@ if(isset($_GET['driverId']) && !empty($_GET['driverId'])) {
     if (!$driver) {
         exit('Driver not found with this id: ' . $driverId);
     }
+
+    $vehicles = $vehicleClass->getAllByVehicleTypes($driver->getVehicleTypesByDrivingLicence());
 } else {
   exit('driverId is required parameter!');
 }
@@ -41,7 +42,7 @@ if (isset($_POST['assign'])) {
     <label for="vehicle_id">Vehicle:</label>
     <select name="vehicle_id" id="vehicle_id" class="form-control" required>
         <?php foreach ($vehicles as $vehicle) { ?>
-          <option value="<?php echo $vehicle['id'] ?>"><?php echo $vehicle['label'] ?></option>
+          <option value="<?php echo $vehicle->getId() ?>"><?php echo $vehicle->getLabel() ?></option>
         <?php } ?>
     </select>
   </div>

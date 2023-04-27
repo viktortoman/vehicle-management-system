@@ -14,8 +14,6 @@ if (isset($_GET['editId']) && !empty($_GET['editId'])) {
     if (!$driver) {
         exit('Driver not found with this id: ' . $id);
     }
-} else {
-    exit('editId is required parameter!');
 }
 
 if (isset($_POST['save'])) {
@@ -38,13 +36,22 @@ if (isset($_POST['update'])) {
   <div class="form-group">
     <label for="name">Name:</label>
     <input type="text" class="form-control" name="name"
-           placeholder="Enter name" value="<?php echo $driver ? $driver['name'] : ''; ?>" required>
+           placeholder="Enter name" value="<?php echo $driver ? $driver->getName() : ''; ?>" required>
   </div>
 
   <div class="form-group">
     <label for="birth_date">Birth date:</label>
     <input type="date" class="form-control" name="birth_date"
-           placeholder="Enter birth date" value="<?php echo $driver ? $driver['birth_date'] : ''; ?>" required>
+           placeholder="Enter birth date" value="<?php echo $driver ? $driver->getBirthDate() : ''; ?>" required>
+  </div>
+
+  <div class="form-group">
+    <label for="vehicle_type">Driving licence:</label>
+    <select name="driving_licence" id="driving_licence" class="form-control" required>
+      <option value="B" <?php echo $driver && $driver->getDrivingLicence() === 'B' ? 'selected' : ''; ?>>Car</option>
+      <option value="C" <?php echo $driver && $driver->getDrivingLicence() === 'C' ? 'selected' : ''; ?>>Van</option>
+      <option value="D" <?php echo $driver && $driver->getDrivingLicence() === 'D' ? 'selected' : ''; ?>>Large truck</option>
+    </select>
   </div>
 
   <input type="submit" name="<?php echo $driver ? 'update' : 'save'; ?>" class="btn btn-primary float-right"

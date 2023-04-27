@@ -59,6 +59,7 @@ if (isset($_GET['deleteId']) && !empty($_GET['deleteId'])) {
       <th>Id</th>
       <th>Name</th>
       <th>Birth date</th>
+      <th>Driving licences</th>
       <th>Created at</th>
       <th>Actions</th>
     </tr>
@@ -76,18 +77,19 @@ if (isset($_GET['deleteId']) && !empty($_GET['deleteId'])) {
     <?php foreach ($drivers as $driver) {
         ?>
       <tr>
-        <td><?php echo $driver['id'] ?></td>
-        <td><?php echo $driver['name'] ?></td>
-        <td><?php echo $driver['birth_date'] ?></td>
-        <td><?php echo $driver['created_at'] ?></td>
+        <td><?php echo $driver->getId() ?></td>
+        <td><?php echo $driver->getName() ?></td>
+        <td><?php echo $driver->getBirthDate() ?></td>
+        <td><?php echo $driver->getDrivingLicenceLabel() ?></td>
+        <td><?php echo $driver->getCreatedAt() ?></td>
         <td>
-          <a href="driver/edit.php?editId=<?php echo $driver['id'] ?>" class="text-decoration-none text-success mr-2">
+          <a href="driver/edit.php?editId=<?php echo $driver->getId() ?>" class="text-decoration-none text-success mr-2">
             <i class="fa fa-pencil" aria-hidden="true"></i>
           </a>
-          <a href="driver/assign-vehicle.php?driverId=<?php echo $driver['id'] ?>" class="text-decoration-none text-primary mr-2">
+          <a href="driver/assign-vehicle.php?driverId=<?php echo $driver->getId() ?>" class="text-decoration-none text-primary mr-2">
             <i class="fa fa-car" aria-hidden="true"></i>
           </a>
-          <a href="drivers.php?deleteId=<?php echo $driver['id'] ?>" class="text-danger"
+          <a href="drivers.php?deleteId=<?php echo $driver->getId() ?>" class="text-danger"
              onclick="confirm('Are you sure want to delete this record?')">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </a>

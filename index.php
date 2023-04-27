@@ -58,6 +58,7 @@ if(isset($_GET['deleteId']) && !empty($_GET['deleteId'])) {
     <tr>
       <th>Id</th>
       <th>Type</th>
+      <th>Vehicle type</th>
       <th>Plate number</th>
       <th>Placing on the market</th>
       <th>Created at</th>
@@ -78,16 +79,17 @@ if(isset($_GET['deleteId']) && !empty($_GET['deleteId'])) {
     <?php foreach ($vehicles as $vehicle) {
         ?>
       <tr>
-        <td><?php echo $vehicle['id'] ?></td>
-        <td><?php echo $vehicle['type'] ?></td>
-        <td><?php echo $vehicle['plate_number'] ?></td>
-        <td><?php echo $vehicle['placing_on_the_market'] ?></td>
-        <td><?php echo $vehicle['created_at'] ?></td>
+        <td><?php echo $vehicle->getId() ?></td>
+        <td><?php echo $vehicle->getLabel() ?></td>
+        <td><?php echo $vehicle->getVehicleTypeLabel() ?></td>
+        <td><?php echo $vehicle->getPlateNumber() ?></td>
+        <td><?php echo $vehicle->getPlacingOnTheMarket() ?></td>
+        <td><?php echo $vehicle->getCreatedAt() ?></td>
         <td>
-          <a href="src/pages/vehicle/edit.php?editId=<?php echo $vehicle['id'] ?>" class="text-decoration-none text-success mr-2">
+          <a href="src/pages/vehicle/edit.php?editId=<?php echo $vehicle->getId() ?>" class="text-decoration-none text-success mr-2">
             <i class="fa fa-pencil" aria-hidden="true"></i>
           </a>
-          <a href="index.php?deleteId=<?php echo $vehicle['id'] ?>" class="text-danger"
+          <a href="index.php?deleteId=<?php echo $vehicle->getId() ?>" class="text-danger"
              onclick="confirm('Are you sure want to delete this record?')">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </a>

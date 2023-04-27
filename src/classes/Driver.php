@@ -2,10 +2,11 @@
 
 namespace App\VehicleManagementSystem\Classes;
 
-use App\VehicleManagementSystem\Interfaces\CrudInterface;
+use App\VehicleManagementSystem\DTOS\DriverDTO;
+use App\VehicleManagementSystem\Interfaces\DriverInterface;
 use PDO;
 
-class Driver extends Database implements CrudInterface
+class Driver extends Database implements DriverInterface
 {
     public function __construct()
     {
@@ -18,9 +19,17 @@ class Driver extends Database implements CrudInterface
         $pdoStatement = $this->connection->prepare($sql);
         $pdoStatement->execute();
 
-        return $pdoStatement->fetchAll();
+        $result = $pdoStatement->fetchAll();
+
+        if ($result) {
+            foreach ($result as $key => $data) {
+                $result[$key] = $this->makeDTO($data);
+            }
+        }
+
+        return $result;
     }
-    public function findById($id): false|array
+    public function findById($id): ?DriverDTO
     {
         $sql = "SELECT * FROM drivers WHERE id = :id";
         $pdoStatement = $this->connection->prepare(
@@ -28,8 +37,13 @@ class Driver extends Database implements CrudInterface
             [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]
         );
         $pdoStatement->execute(['id' => $id]);
+        $data = $pdoStatement->fetch();
 
-        return $pdoStatement->fetch();
+        if ($data) {
+            return $this->makeDTO($data);
+        }
+
+        return null;
     }
 
     /**
@@ -37,7 +51,7 @@ class Driver extends Database implements CrudInterface
      */
     public function create($data)
     {
-        $sql = "INSERT INTO drivers (name, birth_date, created_at) VALUES (?,?,?)";
+        $sql = "INSERT INTO drivers (name, birth_date, driving_licences, created_at) VALUES (?,?,?,?)";
         $this->prepare('INSERT', $sql, $data);
     }
 
@@ -47,7 +61,7 @@ class Driver extends Database implements CrudInterface
 
         if ($vehicle) {
             $data['id'] = $id;
-            $sql = "UPDATE drivers SET name=?, birth_date=?, updated_at=? WHERE id=?";
+            $sql = "UPDATE drivers SET name=?, birth_date=?, driving_licences=? updated_at=? WHERE id=?";
             $this->prepare('UPDATE', $sql, $data);
         }
     }
@@ -77,9 +91,19 @@ class Driver extends Database implements CrudInterface
     }
 
     protected function prepare($type, $sql, $data) {
+        $drivingLicences = ['B'];
+
+        if ($data['driving_licence'] === 'C') {
+            $drivingLicences[] = 'C';
+        } elseif($data['driving_licence'] === 'D') {
+            $drivingLicences[] = 'C';
+            $drivingLicences[] = 'D';
+        }
+
         $row = [
             $data['name'],
             $data['birth_date'],
+            json_encode($drivingLicences),
             (new \DateTime())->format('Y-m-d H:i:s'),
         ];
 
@@ -88,5 +112,16 @@ class Driver extends Database implements CrudInterface
         }
 
         $this->connection->prepare($sql)->execute($row);
+    }
+
+    protected function makeDTO($data): DriverDTO
+    {
+        return new DriverDTO(
+            $data['id'],
+            $data['name'],
+            $data['birth_date'],
+            $data['driving_licences'],
+            $data['created_at'],
+        );
     }
 }
