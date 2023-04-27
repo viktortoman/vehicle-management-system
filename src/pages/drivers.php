@@ -7,6 +7,13 @@ $driverClass = new Driver();
 
 if (isset($_GET['deleteId']) && !empty($_GET['deleteId'])) {
     $deleteId = $_GET['deleteId'];
+
+    $driver = $driverClass->findById($deleteId);
+
+    if (!$driver) {
+        exit('Driver not found with this id: ' . $deleteId);
+    }
+
     $driverClass->delete($deleteId);
     header("Location: drivers.php?msg=delete-success");
 }
@@ -74,9 +81,13 @@ if (isset($_GET['deleteId']) && !empty($_GET['deleteId'])) {
         <td><?php echo $driver['birth_date'] ?></td>
         <td><?php echo $driver['created_at'] ?></td>
         <td>
-          <a href="driver/edit.php?editId=<?php echo $driver['id'] ?>" style="color:green">
-            <i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp
-          <a href="drivers.php?deleteId=<?php echo $driver['id'] ?>" style="color:red"
+          <a href="driver/edit.php?editId=<?php echo $driver['id'] ?>" class="text-decoration-none text-success mr-2">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </a>
+          <a href="driver/assign-vehicle.php?driverId=<?php echo $driver['id'] ?>" class="text-decoration-none text-primary mr-2">
+            <i class="fa fa-car" aria-hidden="true"></i>
+          </a>
+          <a href="drivers.php?deleteId=<?php echo $driver['id'] ?>" class="text-danger"
              onclick="confirm('Are you sure want to delete this record?')">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </a>

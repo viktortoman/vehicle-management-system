@@ -7,6 +7,13 @@ $vehicleClass = new Vehicle();
 
 if(isset($_GET['deleteId']) && !empty($_GET['deleteId'])) {
     $deleteId = $_GET['deleteId'];
+
+    $vehicle = $vehicleClass->findById($deleteId);
+
+    if (!$vehicle) {
+        exit('Vehicle not found with this id: ' . $deleteId);
+    }
+
     $vehicleClass->delete($deleteId);
     header("Location: index.php?msg=delete-success");
 }
@@ -77,9 +84,10 @@ if(isset($_GET['deleteId']) && !empty($_GET['deleteId'])) {
         <td><?php echo $vehicle['placing_on_the_market'] ?></td>
         <td><?php echo $vehicle['created_at'] ?></td>
         <td>
-          <a href="src/pages/vehicle/edit.php?editId=<?php echo $vehicle['id'] ?>" style="color:green">
-            <i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp
-          <a href="index.php?deleteId=<?php echo $vehicle['id'] ?>" style="color:red"
+          <a href="src/pages/vehicle/edit.php?editId=<?php echo $vehicle['id'] ?>" class="text-decoration-none text-success mr-2">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </a>
+          <a href="index.php?deleteId=<?php echo $vehicle['id'] ?>" class="text-danger"
              onclick="confirm('Are you sure want to delete this record?')">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </a>

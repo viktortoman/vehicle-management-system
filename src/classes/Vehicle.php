@@ -23,6 +23,7 @@ class Vehicle extends Database implements CrudInterface
         if ($result) {
             foreach ($result as $key => $data) {
                 $result[$key]['type'] = $this->getType($data['type']);
+                $result[$key]['label'] = $this->getType($data['type']) . ' (' . $data['plate_number'] . ')';
             }
         }
 

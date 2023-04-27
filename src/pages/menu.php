@@ -18,9 +18,6 @@ $activePage = basename($_SERVER['PHP_SELF'], ".php");
       <li class="nav-item">
         <a class="nav-link <?php if ($activePage === "drivers") {echo "active"; }?>" href="<?= Config::BASE_URL . 'src/pages/drivers.php'?>">Drivers</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Driver vehicles</a>
-      </li>
     </ul>
   </div>
 </nav>

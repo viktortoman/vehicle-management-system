@@ -7,13 +7,24 @@ $driverClass = new Driver();
 $driver = null;
 $id = null;
 
-if(isset($_GET['editId']) && !empty($_GET['editId'])) {
+if (isset($_GET['editId']) && !empty($_GET['editId'])) {
     $id = $_GET['editId'];
     $driver = $driverClass->findById($id);
+
+    if (!$driver) {
+        exit('Driver not found with this id: ' . $id);
+    }
+} else {
+    exit('editId is required parameter!');
 }
 
 if (isset($_POST['save'])) {
-    $driverClass->create($_POST);
+    try {
+        $driverClass->create($_POST);
+    } catch (Exception $e) {
+        exit($e);
+    }
+
     header("Location: ../drivers.php?msg=insert-success");
 }
 
@@ -36,6 +47,6 @@ if (isset($_POST['update'])) {
            placeholder="Enter birth date" value="<?php echo $driver ? $driver['birth_date'] : ''; ?>" required>
   </div>
 
-  <input type="submit" name="<?php echo $driver ? 'update' : 'save'; ?>" class="btn btn-primary" style="float:right;"
+  <input type="submit" name="<?php echo $driver ? 'update' : 'save'; ?>" class="btn btn-primary float-right"
          value="<?php echo $driver ? 'Update' : 'Save'; ?>">
 </form>

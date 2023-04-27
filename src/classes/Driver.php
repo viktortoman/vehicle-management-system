@@ -67,6 +67,15 @@ class Driver extends Database implements CrudInterface
         }
     }
 
+    /**
+     * @throws \Exception
+     */
+    public function assignVehicle($data)
+    {
+        $driverVehicle = new DriverVehicle();
+        $driverVehicle->create($data);
+    }
+
     protected function prepare($type, $sql, $data) {
         $row = [
             $data['name'],

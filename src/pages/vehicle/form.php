@@ -10,10 +10,21 @@ $id = null;
 if(isset($_GET['editId']) && !empty($_GET['editId'])) {
     $id = $_GET['editId'];
     $vehicle = $vehicleClass->findById($id);
+
+    if (!$vehicle) {
+        exit('Vehicle not found with this id: ' . $id);
+    }
+} else {
+    exit('editId is required parameter!');
 }
 
 if (isset($_POST['save'])) {
-    $vehicleClass->create($_POST);
+    try {
+        $vehicleClass->create($_POST);
+    } catch (Exception $e) {
+        exit($e);
+    }
+
     header("Location: ../../../index.php?msg=insert-success");
 }
 
@@ -45,5 +56,6 @@ if (isset($_POST['update'])) {
            placeholder="Enter placing on the market" value="<?php echo $vehicle ? $vehicle['placing_on_the_market'] : ''; ?>" required>
   </div>
 
-  <input type="submit" name="<?php echo $vehicle ? 'update' : 'save'; ?>" class="btn btn-primary" style="float:right;" value="<?php echo $vehicle ? 'Update' : 'Save'; ?>">
+  <input type="submit" name="<?php echo $vehicle ? 'update' : 'save'; ?>" class="btn btn-primary float-right"
+         value="<?php echo $vehicle ? 'Update' : 'Save'; ?>">
 </form>
