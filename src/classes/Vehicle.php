@@ -136,7 +136,7 @@ class Vehicle extends Database implements VehicleInterface
         $this->connection->prepare($sql)->execute($row);
     }
 
-    protected function makeDTO($data): VehicleDTO
+    public static function makeDTO($data): VehicleDTO
     {
         if ($data['vehicle_type'] === 'car') {
             return new CarDTO(

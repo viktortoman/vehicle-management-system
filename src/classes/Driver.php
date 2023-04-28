@@ -114,7 +114,7 @@ class Driver extends Database implements DriverInterface
         $this->connection->prepare($sql)->execute($row);
     }
 
-    protected function makeDTO($data): DriverDTO
+    public static function makeDTO($data): DriverDTO
     {
         return new DriverDTO(
             $data['id'],

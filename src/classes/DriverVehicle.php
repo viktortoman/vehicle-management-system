@@ -2,6 +2,9 @@
 
 namespace App\VehicleManagementSystem\Classes;
 
+use App\VehicleManagementSystem\DTOS\DriverDTO;
+use App\VehicleManagementSystem\DTOS\DriverVehicleDTO;
+use App\VehicleManagementSystem\DTOS\VehicleDTO;
 use App\VehicleManagementSystem\Interfaces\CrudInterface;
 use PDO;
 
@@ -12,13 +15,36 @@ class DriverVehicle extends Database
         parent::__construct();
     }
 
-    public function getAll(): false|array
+    public function getAll(): array
     {
         $sql = "SELECT * FROM driver_vehicles ORDER BY id DESC";
         $pdoStatement = $this->connection->prepare($sql);
-        $pdoStatement->execute();
+        $result = $pdoStatement->fetchAll();
 
-        return $pdoStatement->fetchAll();
+        if ($result) {
+            foreach ($result as $key => $data) {
+                $result[$key] = $this->makeDTO($data);
+            }
+        }
+
+        return $result;
+    }
+
+    public function getAllByDriverId($driverId): array
+    {
+        $sql = "SELECT * FROM driver_vehicles AS dv INNER JOIN drivers AS d ON dv.driver_id = d.id INNER JOIN vehicles AS v ON dv.vehicle_id = v.id WHERE dv.driver_id = :driverId";
+        $pdoStatement = $this->connection->prepare($sql);
+        $pdoStatement->execute(['driverId' => $driverId]);
+
+        $result = $pdoStatement->fetchAll();
+
+        if ($result) {
+            foreach ($result as $key => $data) {
+                $result[$key] = $this->makeDTO($data);
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -42,5 +68,15 @@ class DriverVehicle extends Database
         }
 
         $this->connection->prepare($sql)->execute($row);
+    }
+
+    protected function makeDTO($data): DriverVehicleDTO
+    {
+        $vehicle = Vehicle::makeDTO($data);
+        $driver = Driver::makeDTO($data);
+
+        return new DriverVehicleDTO(
+            $data['id'], $vehicle, $driver, $data['day'], $data['created_at']
+        );
     }
 }

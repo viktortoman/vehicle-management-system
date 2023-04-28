@@ -22,7 +22,12 @@ require '../../../vendor/autoload.php';
             </div>";
     }
     ?>
-    <?php include 'assign-form.php'; ?>
+    <div class="mb-5">
+        <?php include 'assign-form.php'; ?>
+    </div>
+    <div>
+        <?php include 'assigns.php'; ?>
+    </div>
 </div>
 <?php include '../footer.php'; ?>
 </body>
